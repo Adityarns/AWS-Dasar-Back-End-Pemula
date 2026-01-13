@@ -29,6 +29,21 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
+    ],
+    "/notes/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/notes/[id].js"
+    ],
+    "/notes/[id]/edit": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/notes/[id]/edit.js"
+    ],
+    "/notes/new": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/notes/new.js"
     ]
   },
   "ampFirstPages": []
