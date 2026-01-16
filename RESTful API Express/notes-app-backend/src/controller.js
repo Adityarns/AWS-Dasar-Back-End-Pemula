@@ -2,11 +2,11 @@ import { nanoid } from "nanoid";
 import notes from "./notes.js";
 
 export const createNote = (req, res, next) => {
-  const { tittle = "untitled", tags, body } = req.body;
+  const { title = "untitled", tags, body } = req.body;
   const id = nanoid(16);
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
-  const newNote = { tittle, tags, body, id, createdAt, updatedAt };
+  const newNote = { title, tags, body, id, createdAt, updatedAt };
   notes.push(newNote);
   const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
@@ -47,11 +47,11 @@ export const getNotebyID = (req, res) => {
 
 export const editNoteByID = (req, res) => {
   const { id } = req.params;
-  const { tittle, tag, body } = req.body;
+  const { title, tags, body } = req.body;
   const updatedAt = new Date().toISOString();
   const index = notes.findIndex((n) => n.id === id);
   if (index !== -1) {
-    notes[index] = { ...notes[index], tittle, tag, body, updatedAt };
+    notes[index] = { ...notes[index], title, tags, body, updatedAt };
     return res.json({
       status: "Success",
       message: "Catatan berhasil diperbarui",
