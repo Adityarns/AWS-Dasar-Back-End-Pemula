@@ -62,7 +62,29 @@ export const createBook = (req, res, next) => {
 };
 
 export const getBook = (req, res) => {
-  const simplifiedBooks = books.map((book) => ({
+  const { reading, finished, name } = req.query;
+
+  let filteredBooks = books;
+
+  if (reading !== undefined) {
+    filteredBooks = filteredBooks.filter(
+      (book) => book.reading === (reading === "1"),
+    );
+  }
+
+  if (finished !== undefined) {
+    filteredBooks = filteredBooks.filter(
+      (book) => book.finished === (finished === "1"),
+    );
+  }
+  
+  if (name !== undefined) {
+    filteredBooks = filteredBooks.filter((book) =>
+      book.name.toLowerCase().includes(name.toLowerCase()),
+    );
+  }
+
+  const simplifiedBooks = filteredBooks.map((book) => ({
     id: book.id,
     name: book.name,
     publisher: book.publisher,
@@ -136,5 +158,21 @@ export const editBookById = (req, res) => {
   return res.status(404).json({
     status: "fail",
     message: "Gagal memperbarui buku. Id tidak ditemukan",
+  });
+};
+
+export const deleteBookById = (req, res) => {
+  const { id } = req.params;
+  const index = books.findIndex((n) => n.id === id);
+  if (index !== -1) {
+    books.splice(index, 1);
+    return res.status(200).json({
+      status: "success",
+      message: "Buku berhasil dihapus",
+    });
+  }
+  return res.status(404).json({
+    status: "fail",
+    message: "Buku gagal dihapus. Id tidak ditemukan",
   });
 };
