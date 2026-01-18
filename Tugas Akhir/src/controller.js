@@ -3,7 +3,7 @@ import books from "./books.js";
 
 export const createBook = (req, res, next) => {
   const {
-    name = "noName",
+    name,
     year,
     author,
     summary,
@@ -19,7 +19,7 @@ export const createBook = (req, res, next) => {
   }
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
-  if (name === "noName") {
+  if (!name) {
     return res.status(400).json({
       status: "fail",
       message: "Gagal menambahkan buku. Mohon isi nama buku",
@@ -85,5 +85,56 @@ export const getBookById = (req, res) => {
   return res.status(404).json({
     status: "fail",
     message: "Buku tidak ditemukan",
+  });
+};
+
+export const editBookById = (req, res) => {
+  const { id } = req.params;
+  const {
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+  } = req.body;
+  if (!name) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Gagal memperbarui buku. Mohon isi nama buku",
+    });
+  }
+  if (readPage > pageCount) {
+    return res.status(400).json({
+      status: "fail",
+      message:
+        "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
+    });
+  }
+  const updatedAt = new Date().toISOString();
+  const index = books.findIndex((n) => n.id === id);
+  if (index !== -1) {
+    books[index] = {
+      ...books[index],
+      name,
+      year,
+      author,
+      summary,
+      publisher,
+      pageCount,
+      readPage,
+      reading,
+      updatedAt,
+    };
+    return res.status(200).json({
+      status: "success",
+      message: "Buku berhasil diperbarui",
+    });
+  }
+  return res.status(404).json({
+    status: "fail",
+    message: "Gagal memperbarui buku. Id tidak ditemukan",
   });
 };
