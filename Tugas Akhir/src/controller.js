@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import books from "./books.js";
 
-export const createBook = (req, res, next) => {
+export const createBook = (req, res) => {
   const {
     name,
     year,
@@ -77,7 +77,7 @@ export const getBook = (req, res) => {
       (book) => book.finished === (finished === "1"),
     );
   }
-  
+
   if (name !== undefined) {
     filteredBooks = filteredBooks.filter((book) =>
       book.name.toLowerCase().includes(name.toLowerCase()),
