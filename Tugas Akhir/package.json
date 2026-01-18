@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "eslint": "^9.39.2",
     "express": "^5.2.1",
     "nanoid": "^5.1.6"
   }
